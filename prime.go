@@ -20,7 +20,7 @@ func fill(nums []bool, i uint64, max uint64) {
 	}
 }
 
-func goFill(nums []bool, i uint64, max uint64, next chan bool) {
+func goFill(nums []bool, i uint64, max uint64, next <-chan bool) {
 	fill(nums, i, max)
 	<-next
 }
@@ -34,7 +34,7 @@ func Primes(max uint64) []uint64 {
 	var nums = make([]bool, max+1)
 	m := uint64(math.Sqrt(float64(max)))
 
-	for i := uint64(2); i <= m; i = i + 2 {
+	for i := uint64(2); i < m; i = i + 2 {
 		if nums[i] == false {
 			go goFill(nums, i, max, next)
 			next <- true
